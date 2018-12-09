@@ -22,6 +22,8 @@ var abi = [{"constant":false,"inputs":[{"name":"target_stock_name","type":"strin
 
 web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'))
 
+
+console.log(web3.eth.accounts);
 var _stockName = "Stock" ;
 var _stockAmount = 1000 ;
 var stock_marketContract = web3.eth.contract([{"constant":false,"inputs":[{"name":"target_stock_name","type":"string"},{"name":"target_stock_amount","type":"uint32"}],"name":"sell_stock","outputs":[{"name":"","type":"string"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"target_stock_name","type":"string"},{"name":"target_stock_amount","type":"uint32"}],"name":"buy_stock","outputs":[{"name":"","type":"string"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"_stockName","type":"string"}],"name":"validStock","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"printStockName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"printStockAmount","outputs":[{"name":"","type":"uint32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"stockName","type":"string"},{"name":"currentUserAddress","type":"address"}],"name":"ownedStockAmounts","outputs":[{"name":"","type":"uint32"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_stockName","type":"string"},{"name":"_stockAmount","type":"uint32"}],"payable":true,"stateMutability":"payable","type":"constructor"}]);
@@ -38,7 +40,7 @@ var stock_market = stock_marketContract.new(
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
     }
 })
-
+web3.eth.defaultAccount = web3.eth.accounts[0];
 contracts.push(stock_market);
 
 //var contract = new web3.eth.Contract(abi);
@@ -56,7 +58,9 @@ app.post('/submit-form', (req, res) => {
             flag = 1;
             //res.sendFile(path.join(__dirname + '/Validated.html'));
             loggedInUser = user;
-            if(user = "admin"){
+            
+            console.log(user);
+            if(user == "admin"){
                 res.redirect("/AdminSettings")
             }
             else{
@@ -69,7 +73,9 @@ app.post('/submit-form', (req, res) => {
     contracts.push(contract);
 
     if(flag == 0){
-        res.send("Invalid user")
+        res.render('index.ejs', {loginStatus: "Invalid credentials!"});
+        //res.redirect("/", {loginStatus: "Invalid credentials!"})
+        //res.send("Invalid user")
         flag = 1 
     }
 
@@ -82,13 +88,16 @@ app.post('/buyStock', (req, res) => {
     const requestedStock = req.body.buyName;
     const requestedBuyAmount = req.body.buyAmount;
     console.log(requestedStock, requestedBuyAmount);
-    stock_market.buy_stock(requestedStock, requestedBuyAmount);
+    var status = stock_market.buy_stock(requestedStock, requestedBuyAmount);
+    res.redirect('/ValidatedUser');
+    
 })
 
 app.post('/sellStock', (req, res) => {
     const requestedStock = req.body.sellName;
     const requestedSellAmount = req.body.sellAmount;
     stock_market.sell_stock(requestedStock,requestedSellAmount);
+    res.redirect('/ValidatedUser');
 })
 
 app.post('/addStock', (req, res) => {
@@ -113,9 +122,9 @@ app.post('/addStock', (req, res) => {
 })
 
 app.get('/ValidatedUser', function(req, res){
-    var value = stock_market.printStockName();
+    var name = stock_market.printStockName();
     console.log(value);
-    var name = stock_market.printStockAmount();
+    var value = stock_market.printStockAmount();
     //var name = contract.methods.printStockName().c[0];
     res.render('Validated.ejs', { stockName: name, stockVal: value, currUser: loggedInUser});
 })
@@ -125,7 +134,7 @@ app.get('/AdminSettings', function(req, res) {
 });
 
 app.get('/', function(req, res) {
-    res.render('index.ejs');
+    res.render('index.ejs', {loginStatus: ''});
 });
 
 app.listen(5656, () => {

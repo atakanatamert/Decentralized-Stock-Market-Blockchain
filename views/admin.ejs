@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body style="background-color: #545859;">
-    <div class="container"></div>
+    <div class="container">
         <div class="jumbotron" style="background-color: #202425">
             <h2 style="margin-left:8%; color: lightgray;">Deploy Stock Contract</h2>
             <form action="/addStock" method="POST">
@@ -30,7 +30,7 @@
             </form>
 
             <form action="/" method="GET" style="margin-top: 5%; margin-left:8%;">
-                <input class="btn btn-default" type="submit" value="Return to Login">
+                <input class="btn btn-default" type="submit" value="Logout">
             </form>
             
             <p style="margin-top: 5%; margin-left:8%; color: lightgray;"><%= stockStatus %></p>
