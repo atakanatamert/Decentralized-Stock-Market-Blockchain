@@ -1,0 +1,133 @@
+[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "target_stock_name",
+				"type": "string"
+			},
+			{
+				"name": "target_stock_amount",
+				"type": "uint32"
+			}
+		],
+		"name": "sell_stock",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "target_stock_name",
+				"type": "string"
+			},
+			{
+				"name": "target_stock_amount",
+				"type": "uint32"
+			}
+		],
+		"name": "buy_stock",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_stockName",
+				"type": "string"
+			}
+		],
+		"name": "validStock",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "printStockName",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "printStockAmount",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "stockName",
+				"type": "string"
+			},
+			{
+				"name": "currentUserAddress",
+				"type": "address"
+			}
+		],
+		"name": "ownedStockAmounts",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_stockName",
+				"type": "string"
+			},
+			{
+				"name": "_stockAmount",
+				"type": "uint32"
+			}
+		],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "constructor"
+	}
+]

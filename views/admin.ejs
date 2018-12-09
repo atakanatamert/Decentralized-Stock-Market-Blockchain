@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Settings</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body style="background-color: #545859;">
+    <div class="container"></div>
+        <div class="jumbotron" style="background-color: #202425">
+            <h2 style="margin-left:8%; color: lightgray;">Deploy Stock Contract</h2>
+            <form action="/addStock" method="POST">
+                <div style="margin-left:8%; margin-top: 5%; margin-right:8%;">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-btc"></i></span>
+                        <input type="text" name="stockName" class="form-control" placeholder="Enter stock name"/>
+                    </div>
+                    <div class="input-group" style="margin-top: 2%;">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>
+                        <input type="number" name="stockAmount" class="form-control" placeholder="Enter stock amount"/>
+                    </div>
+                    
+                    <div style="margin-top: 5%;">
+                        <input class="btn btn-default" type="submit" value="Submit">
+                    </div>
+                    
+                </div>
+            </form>
+
+            <form action="/" method="GET" style="margin-top: 5%; margin-left:8%;">
+                <input class="btn btn-default" type="submit" value="Return to Login">
+            </form>
+            
+            <p style="margin-top: 5%; margin-left:8%; color: lightgray;"><%= stockStatus %></p>
+        </div>
+
+        
+    </div>
+</body>
+</html>
