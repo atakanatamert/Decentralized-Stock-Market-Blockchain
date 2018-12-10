@@ -6,8 +6,8 @@ var path = require("path");
 var app = express();
 var solc = require('solc');
 var fs = require('fs');
-var users = ["admin","adr1", "adr2", "adr3"]
-var pass = [0, 1, 2, 3]
+//var users = ["admin","adr1", "adr2", "adr3"]
+//var pass = [0, 1, 2, 3]
 var flag = 0;
 var contracts = [];
 
@@ -32,7 +32,6 @@ MongoClient.connect('mongodb://localhost:27017/stockexchange', (err, db) => {
 	});
   })
 });
-
 
 //var abi = require("./Abi.json");
 
@@ -76,7 +75,32 @@ var loggedInUser = "Default";
 app.post('/submit-form', (req, res) => {
     const submittedAddress = req.body.user;
     const submittedPassword = req.body.password;
-
+	var contract;
+	
+	MongoClient.connect('mongodb://localhost:27017/stockexchange', function(err, mongoclient) {
+		
+		var db = mongoclient.db("stockexchange");
+		var cursor = db.collection('users').find({});
+		
+		contract = cursor.forEach(function(user) {
+			if (user.address == submittedAddress && user.password == submittedPassword) {
+				flag = 1;
+				loggedInUser = user;
+				console.log("You have successfully logged in.");
+				if (user.isAdmin == 1) {
+					res.redirect("/AdminSettings")
+				} else {
+					res.redirect("/ValidatedUser")
+				}
+			} else {
+				console.log("Such a user was not found in our database. Please try again.");
+			}
+			res.end();
+		});
+		contracts.push(contract);
+	});
+	
+/*
     var contract = users.forEach( function (user, index) {
         if(user == submittedAddress && pass[index] == submittedPassword){
             flag = 1;
@@ -91,17 +115,15 @@ app.post('/submit-form', (req, res) => {
             //res.send("/ValidatedUser")
         }
     });
-
-    contracts.push(contract);
-
-    if(flag == 0){
+*/
+    setTimeout(function() { if(flag == 0){
         res.send("Invalid user")
         flag = 1 
-    }
+    } }, 10000);
 
-    flag = 0;
+    setTimeout(function() { flag = 0 }, 10000);
 
-    res.end()
+    setTimeout(function() { res.end() }, 10000);
 })
 
 app.post('/buyStock', (req, res) => {
