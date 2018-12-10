@@ -10,6 +10,30 @@ var users = ["admin","adr1", "adr2", "adr3"]
 var pass = [0, 1, 2, 3]
 var flag = 0;
 var contracts = [];
+
+var mongo = require('mongodb');
+var MongoClient = mongo.MongoClient;
+
+
+MongoClient.connect('mongodb://localhost:27017/stockexchange', (err, db) => {
+  if (err) throw err
+
+  db = db.db("stockexchange");
+  
+  db.listCollections().toArray(function (err, result) {
+	if (err) throw err
+
+	console.log(result);
+	
+	var cursor = db.collection('stocks').find({});
+	
+	cursor.forEach(function(stock) {
+		console.log(stock);
+	});
+  })
+});
+
+
 //var abi = require("./Abi.json");
 
 app.use(bodyParser.urlencoded({ extended: true}));
@@ -22,6 +46,8 @@ var abi = [{"constant":false,"inputs":[{"name":"target_stock_name","type":"strin
 
 web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'))
 
+web3.eth.defaultAccount = web3.eth.accounts[0];  //Needed to get rid of the "invalid address" problem otherwise an address has to be used in the solidity code to solve this issue
+												 //Probably means the sol code needs to change and be adapted to this so that the logged-in user can interact instead of the user at [0]
 var _stockName = "Stock" ;
 var _stockAmount = 1000 ;
 var stock_marketContract = web3.eth.contract([{"constant":false,"inputs":[{"name":"target_stock_name","type":"string"},{"name":"target_stock_amount","type":"uint32"}],"name":"sell_stock","outputs":[{"name":"","type":"string"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"target_stock_name","type":"string"},{"name":"target_stock_amount","type":"uint32"}],"name":"buy_stock","outputs":[{"name":"","type":"string"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"_stockName","type":"string"}],"name":"validStock","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"printStockName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"printStockAmount","outputs":[{"name":"","type":"uint32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"stockName","type":"string"},{"name":"currentUserAddress","type":"address"}],"name":"ownedStockAmounts","outputs":[{"name":"","type":"uint32"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_stockName","type":"string"},{"name":"_stockAmount","type":"uint32"}],"payable":true,"stateMutability":"payable","type":"constructor"}]);
@@ -51,12 +77,12 @@ app.post('/submit-form', (req, res) => {
     const submittedAddress = req.body.user;
     const submittedPassword = req.body.password;
 
-    var contract = users.forEach(function (user, index) {
+    var contract = users.forEach( function (user, index) {
         if(user == submittedAddress && pass[index] == submittedPassword){
             flag = 1;
             //res.sendFile(path.join(__dirname + '/Validated.html'));
             loggedInUser = user;
-            if(user = "admin"){
+            if(user.localeCompare("admin") == 0){
                 res.redirect("/AdminSettings")
             }
             else{
@@ -80,15 +106,65 @@ app.post('/submit-form', (req, res) => {
 
 app.post('/buyStock', (req, res) => {
     const requestedStock = req.body.buyName;
-    const requestedBuyAmount = req.body.buyAmount;
+    const requestedBuyAmount = parseInt(req.body.buyAmount);
     console.log(requestedStock, requestedBuyAmount);
     stock_market.buy_stock(requestedStock, requestedBuyAmount);
+	var stockAmountAfterPurchase = 0;
+	
+	MongoClient.connect('mongodb://localhost:27017/stockexchange', function(err, mongoclient) {
+		
+		var db = mongoclient.db("stockexchange");
+		var cursor = db.collection('stocks').find({});
+		
+		cursor.forEach(function(stock) {
+			if (stock.stock_name.localeCompare(requestedStock) == 0) {
+				console.log(stock.stock_amount, requestedBuyAmount);
+				stockAmountAfterPurchase = stock.stock_amount - requestedBuyAmount;
+				console.log(stockAmountAfterPurchase);
+			}
+		});
+		
+		setTimeout(function() { db.collection('stocks').updateOne({"stock_name":requestedStock},{$set:{"stock_amount":stockAmountAfterPurchase}}) }, 5000);
+		
+	});
+	
+	console.log("Rerouting you back to user home page in 3 seconds!")
+	
+	var value = stock_market.printStockAmount();
+	var name = stock_market.printStockName();
+	
+	setTimeout(function() { res.render('Validated.ejs', { stockName: name, stockVal: value, currUser: loggedInUser}) }, 3000);	
 })
 
 app.post('/sellStock', (req, res) => {
     const requestedStock = req.body.sellName;
-    const requestedSellAmount = req.body.sellAmount;
+    const requestedSellAmount = parseInt(req.body.sellAmount);
     stock_market.sell_stock(requestedStock,requestedSellAmount);
+	var stockAmountAfterSale = 0;
+	
+	MongoClient.connect('mongodb://localhost:27017/stockexchange', function(err, mongoclient) {
+		
+		var db = mongoclient.db("stockexchange");
+		var cursor = db.collection('stocks').find({});
+		
+		cursor.forEach(function(stock) {
+			if (stock.stock_name.localeCompare(requestedStock) == 0) {
+				console.log(stock.stock_amount, requestedSellAmount);
+				stockAmountAfterSale = stock.stock_amount + requestedSellAmount;
+				console.log(stockAmountAfterSale);
+			}
+		});
+		
+		setTimeout(function() { db.collection('stocks').updateOne({"stock_name":requestedStock},{$set:{"stock_amount":stockAmountAfterSale}}) }, 5000);
+		
+	});
+	
+	console.log("Rerouting you back to user home page in 3 seconds!")
+	
+	var value = stock_market.printStockAmount();
+	var name = stock_market.printStockName();
+	
+	setTimeout(function() { res.render('Validated.ejs', { stockName: name, stockVal: value, currUser: loggedInUser}) }, 3000);	
 })
 
 app.post('/addStock', (req, res) => {
@@ -107,15 +183,13 @@ app.post('/addStock', (req, res) => {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
     }
  })
-
-    res.render('admin.ejs', { stockStatus: "Added Stock: "+stockToAdd +""+amountToAdd});
-
+    res.render('admin.ejs', { stockStatus: "Added Stock: " + stockToAdd + "" + amountToAdd});
 })
 
 app.get('/ValidatedUser', function(req, res){
-    var value = stock_market.printStockName();
+    var value = stock_market.printStockAmount();
     console.log(value);
-    var name = stock_market.printStockAmount();
+    var name = stock_market.printStockName();
     //var name = contract.methods.printStockName().c[0];
     res.render('Validated.ejs', { stockName: name, stockVal: value, currUser: loggedInUser});
 })
