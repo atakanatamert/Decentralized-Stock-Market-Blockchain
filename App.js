@@ -22,7 +22,7 @@ MongoClient.connect('mongodb://localhost:27017/stockexchange', (err, db) => {
   
   db.listCollections().toArray(function (err, result) {
 	if (err) throw err
-
+ 
 	console.log(result);
 	
 	var cursor = db.collection('stocks').find({});
@@ -95,7 +95,7 @@ app.post('/submit-form', (req, res) => {
 			} else {
 				console.log("Such a user was not found in our database. Please try again.");
 			}
-			res.end();
+			//res.end();
 		});
 		contracts.push(contract);
 	});
