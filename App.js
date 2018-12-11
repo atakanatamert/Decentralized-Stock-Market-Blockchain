@@ -94,8 +94,7 @@ app.post('/submit-form', (req, res) => {
 				}
 			} else {
 				console.log("Such a user was not found in our database. Please try again.");
-			}
-			//res.end();
+            }        
 		});
 		contracts.push(contract);
 	});
