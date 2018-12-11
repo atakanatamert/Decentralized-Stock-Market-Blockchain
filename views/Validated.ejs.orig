@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<<<<<<< HEAD
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Validated User</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	</head>
+	<body>
+		<h1>Stock Operations for the user <%= currUser%> </h1>
+		<div>
+		<form action="/buyStock" method="POST">
+			Buy Stock:<br/>
+			<input type="number" name="buyAmount" placeholder="Enter buy amount"/>
+			<input type="text" name="buyName" placeholder="Enter stock name"/>
+			<input type="submit" value="Buy">
+		</form>
+		</div>
+
+		<div>
+			<form action="/sellStock" method="POST">
+				Sell Stock:<br/>
+				<input type="number" name="sellAmount" placeholder="Enter sell amount"/>
+				<input type="text" name="sellName" placeholder="Enter stock name"/>
+				<input type="submit" value="Sell">
+			</form>
+		</div>
+		
+		<div>
+			<form action="/" method="GET" style="margin-top: 5%; margin-left:8%;">
+				<input class="btn btn-default" type="submit" value="Return to Login">
+			</form>
+		</div>
+		
+		<div>
+			<p>Stock Name: <%= stockName%></p>
+			<p>Stock Amount: <%= stockVal %></p>
+		</div>
+
+	</body>
+=======
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Validated User</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body style="background-color: #545859;">   
+        <div class="jumbotron" style="background-color: #202425">
+        <h2 style="margin-left:8%; color: lightgray;">Stock Operations for the user <%= currUser%> </h2>
+        <div style="margin-left:8%;">
+        <form action="/buyStock" method="POST">
+            Buy Stock:<br/>
+            <input type="number" name="buyAmount" class="form-control" placeholder="Enter buy amount"/>
+            <input type="text" style="margin-top: 2%;" name="buyName" class="form-control" placeholder="Enter stock name"/>
+            <input type="submit" style="margin-top: 2%;" class="btn btn-default" value="Buy">
+        </form>
+        </div>
+
+        <div style="margin-left:8%; margin-top: 5%;">
+            <form action="/sellStock" method="POST">
+                Sell Stock:<br/>
+                <input type="number" name="sellAmount" class="form-control" placeholder="Enter sell amount"/>
+                <input style="margin-top: 2%;" type="text" name="sellName" class="form-control" placeholder="Enter stock name"/>
+                <input style="margin-top: 2%;" type="submit" class="btn btn-default" value="Sell">
+            </form>
+        </div>
+
+        <div>
+            <p style="margin-left:8%; margin-top: 5%; color: lightgray;">Stock Name: <%= stockName%></p>
+            <p style="margin-left:8%; color: lightgray;">Stock Amount: <%= stockVal %></p>
+        </div>
+
+        <div style="margin-right:5%; margin-top: 5%;">
+            <form action="/" method="GET" style="margin-top: 5%; margin-left:80%;">
+                <input class="btn btn-default" type="submit" value="Logout">
+            </form>
+        </div>
+    </div>
+</body>
+>>>>>>> master
+</html>
