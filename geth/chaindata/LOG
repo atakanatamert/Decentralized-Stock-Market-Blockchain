@@ -1,0 +1,39 @@
+=============== Dec 9, 2018 (+03) ===============
+18:48:03.804147 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+18:48:03.815141 db@open opening
+18:48:03.819138 version@stat F·[] S·0B[] Sc·[]
+18:48:03.823210 db@janitor F·2 G·0
+18:48:03.823210 db@open done T·8.069ms
+18:50:02.530526 db@close closing
+18:50:02.541518 db@close done T·10.9925ms
+=============== Dec 9, 2018 (+03) ===============
+18:50:26.889963 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+18:50:26.890962 version@stat F·[] S·0B[] Sc·[]
+18:50:26.890962 db@open opening
+18:50:26.890962 journal@recovery F·1
+18:50:26.891962 journal@recovery recovering @1
+18:50:26.995148 memdb@flush created L0@2 N·21260 S·1MiB "\x00\x00\xae..\x82\x88\x11,v9389":"\xff\xfc\x94..\xa5\x05\xa1,v9518"
+18:50:26.996147 version@stat F·[1] S·1MiB[1MiB] Sc·[0.25]
+18:50:27.011122 db@janitor F·3 G·0
+18:50:27.011122 db@open done T·120.1604ms
+=============== Dec 9, 2018 (+03) ===============
+18:50:33.822290 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+18:50:33.823288 version@stat F·[1] S·1MiB[1MiB] Sc·[0.25]
+18:50:33.823288 db@open opening
+18:50:33.823288 journal@recovery F·1
+18:50:33.908254 journal@recovery recovering @3
+18:50:34.004188 version@stat F·[1] S·1MiB[1MiB] Sc·[0.25]
+18:50:34.020257 db@janitor F·3 G·0
+18:50:34.020257 db@open done T·196.9689ms
+19:18:32.118523 db@close closing
+19:18:32.127517 db@close done T·8.994ms
+=============== Dec 9, 2018 (+03) ===============
+19:19:32.775943 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+19:19:32.776944 version@stat F·[1] S·1MiB[1MiB] Sc·[0.25]
+19:19:32.776944 db@open opening
+19:19:32.777943 journal@recovery F·1
+19:19:32.780943 journal@recovery recovering @5
+19:19:32.790935 memdb@flush created L0@7 N·3 S·483B "Dat..ion,v21263":"eth..ˏ\xa3,v21262"
+19:19:32.794948 version@stat F·[2] S·1MiB[1MiB] Sc·[0.50]
+19:19:32.809944 db@janitor F·4 G·0
+19:19:32.809944 db@open done T·32.9996ms
