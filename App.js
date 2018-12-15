@@ -215,7 +215,7 @@ app.post('/sellStock', (req, res) => {
 		});
 		
 		setTimeout(function() { db.collection('stocks').updateOne({"stock_name":requestedStock},{$set:{"stock_amount":stockAmountAfterSale}}) }, 5000);
-		
+		setTimeout(function() { db.collection('users').updateOne({"address":curUserAddr},{$set:{"ownedStockAmount":ownedStockAmountAfterPurchase}}) }, 5000);		
 	});
 	
 	console.log("Rerouting you back to user home page in 10 seconds!")
