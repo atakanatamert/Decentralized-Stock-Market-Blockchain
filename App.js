@@ -209,7 +209,7 @@ app.post('/sellStock', (req, res) => {
 		
 		cursor.forEach(function(user) {
 			if (user.address == curUserAddr) {
-				ownedStockAmountAfterPurchase = user.ownedStockAmount - requestedBuyAmount;
+				ownedStockAmountAfterPurchase = user.ownedStockAmount - requestedSellAmount;
 				console.log("owned:",ownedStockAmountAfterPurchase);
 			}
 		});
