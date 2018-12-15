@@ -10,7 +10,7 @@
 <body style="background-color: #545859;">   
         <div class="jumbotron" style="background-color: #202425">
         <h2 style="margin-left:8%; color: lightgray;">Stock Operations for the user <%= currUser%> </h2>
-        <div style="margin-left:8%;">
+        <div style="margin-left:8%; margin-right:8%;">
         <form action="/buyStock" method="POST">
             Buy Stock:<br/>
             <input type="number" name="buyAmount" class="form-control" placeholder="Enter buy amount"/>
@@ -19,7 +19,7 @@
         </form>
         </div>
 
-        <div style="margin-left:8%; margin-top: 5%;">
+        <div style="margin-left:8%; margin-top: 3%; margin-right:8%;">
             <form action="/sellStock" method="POST">
                 Sell Stock:<br/>
                 <input type="number" name="sellAmount" class="form-control" placeholder="Enter sell amount"/>
@@ -33,8 +33,8 @@
             <p style="margin-left:8%; color: lightgray;">Stock Amount: <%= stockVal %></p>
         </div>
 
-        <div style="margin-right:5%; margin-top: 5%;">
-            <form action="/" method="GET" style="margin-top: 5%; margin-left:80%;">
+        <div style="margin-top: 5%;">
+            <form action="/" method="GET" style="margin-top: 5%; margin-left:88%;">
                 <input class="btn btn-default" type="submit" value="Logout">
             </form>
         </div>
