@@ -73,6 +73,7 @@ contracts.push(stock_market);
 
 
 app.post('/submit-form', (req, res) => {
+	console.log("submit-form function works");
     const submittedAddress = req.body.user;
     const submittedPassword = req.body.password;
 	var contract;
@@ -85,7 +86,7 @@ app.post('/submit-form', (req, res) => {
 		contract = cursor.forEach(function(user) {
 			if (user.address == submittedAddress && user.password == submittedPassword) {
 				flag = 1;
-				loggedInUser = user;
+				loggedInUser = user.address;
 				curUserAddr = user.address;
 				senderAddr = user.address;
 				web3.eth.defaultAccount = curUserAddr;
@@ -109,6 +110,7 @@ app.post('/submit-form', (req, res) => {
 				if (user.isAdmin == 1) {
 					res.redirect("/AdminSettings")
 				} else {
+					console.log("it's working");
 					res.redirect("/ValidatedUser")
 				}
 			} else {
