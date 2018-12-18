@@ -73,7 +73,6 @@ contracts.push(stock_market);
 
 
 app.post('/submit-form', (req, res) => {
-	console.log("submit-form function works");
     const submittedAddress = req.body.user;
     const submittedPassword = req.body.password;
 	var contract;
@@ -110,7 +109,6 @@ app.post('/submit-form', (req, res) => {
 				if (user.isAdmin == 1) {
 					res.redirect("/AdminSettings")
 				} else {
-					console.log("it's working");
 					res.redirect("/ValidatedUser")
 				}
 			} else {
