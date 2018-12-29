@@ -7,13 +7,19 @@ contract Stock_Market {
     string purchase_result;
     
     mapping (string => uint32) private currentStocks;
+    mapping (address => uint) balance;
+    address public owner;
 
     
-    function buy_stock(string target_stock_name, uint32 target_stock_amount) payable returns (string){
+    function buy_stock(string target_stock_name, uint32 target_stock_amount, address _receiverAddr) payable returns (string){
         if (validStock(target_stock_name) && stockAmount >= target_stock_amount) {
             stockAmount = stockAmount - target_stock_amount;
             currentStocks[target_stock_name] += target_stock_amount;
             purchase_result = "Successful purchase!";
+            owner = msg.sender;
+            balance[msg.sender] += msg.value;
+            _receiverAddr.send(msg.value);
+            owner.transfer(msg.value);
             return purchase_result;
         }
         purchase_result = "Unsuccessful purchase!";
