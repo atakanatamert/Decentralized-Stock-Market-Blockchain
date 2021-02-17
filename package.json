@@ -11,7 +11,7 @@
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "mongodb": "^3.1.10",
+    "mongodb": "^3.1.13",
     "node-gyp": "^3.8.0",
     "solc": "^0.4.25",
     "web3": "^0.20.0"
