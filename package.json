@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "mongodb": "^3.1.10",
     "node-gyp": "^3.8.0",
     "solc": "^0.4.25",
